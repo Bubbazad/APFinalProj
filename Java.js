@@ -1,24 +1,13 @@
 //General Variables////////////////////////////////////////////
-var startTime = Date.now();
-var timerEl = document.getElementById("timer");
-var maxTime = 30;
+var timeLeft = 30;
+var elem = document.getElementById('timer');
+var timerId = setInterval(countdown, 1000);
 var x = 15;
 var y = 10;
 var score = 0;
 var scoreEl = document.getElementById("Score");
-setTimeout(() => {
-  timerEl.innerText = maxTime - (Date.now() - startTime);
-}, 1);
-function scorep(el) {
-  if (el.style.opacity != '1') { 
-    score++;
-    scoreEl.innerText = score;
-    
-  }
-  if (score >= 3) {
-    alert('you win!');
-  }
-}
+var lostEl = document.getElementById("lost");
+var winEl = document.getElementById("win");
 //Pikachu/////////////////////
 var PikX = (((Math.random() * 30) | 0) * 55) + 15;
 var PikY = (((Math.random() * 19) | 0) * 52) + 10;
@@ -39,6 +28,50 @@ var playerEl = document.getElementById('player');
 ////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////
+
+alert("You get 5 seconds to read this then the game starts. Find all 3 pokemon before the timer hits zero. Good Luck!");
+
+function countdown() {
+  if (timeLeft == -1) {
+    clearTimeout(timerId);
+    ending();
+  } 
+  else {
+    elem.innerHTML = timeLeft;
+    timeLeft--;
+  }
+}
+
+function ending() {
+  if(score == 3){
+    winEl.style.opacity="1";
+  }
+  else{
+    lostEl.style.opacity="1"; 
+    speedx = 0;
+    speedy = 0;
+  }
+  setTimeout(() =>{
+    if(score != 3){
+      window.close(); 
+    }
+  }
+  ,3000);
+}
+
+function scorep(el) {
+  if (el.style.opacity != '1') { 
+    score++;
+    scoreEl.innerText = score;
+  }
+  if (score == 3) {
+    alert('you win!');
+    
+  }
+}
+
+////////////////////////////////////////////////////////////////////
+
 document.body.addEventListener('keydown',move);
 
 snorlaxE1.style.top = SnorY + 'px';
@@ -109,7 +142,6 @@ function detectPokemon(x,y){
     // tornadusE1.style.left = 350 + 'px';
   }
 }
-
 ////////////////////////////////////////////
 
 
